@@ -6,6 +6,7 @@
 #include "TabDlg.h"
 #include "afxdialogex.h"
 #include "TabView.h"
+#include "LoginDlg.h"
 
 #define TabViewID	WM_USER + 300
 // TabDlg 对话框
@@ -72,10 +73,6 @@ int TabDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 
 	// TODO:  在此添加您专用的创建代码
-
-
-
-
 
 	return 0;
 }

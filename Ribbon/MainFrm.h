@@ -18,7 +18,7 @@
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
 #include "controls/TabView.h"
-
+#include "controls/LoginView.h"
 class CMainFrame : public CFrameWndEx
 {
 	
@@ -86,7 +86,11 @@ protected:
 	//所有view基于该view
 	CFrameWnd*					m_pFrame;
 	TabView*					m_pTabView;
+	LoginView*					m_pLoginView;
 
+	CRect                       m_ClientRect;
+public:
+	afx_msg void OnTab();
 };
 
 

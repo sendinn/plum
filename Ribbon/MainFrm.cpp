@@ -17,13 +17,14 @@
 
 #include "MainFrm.h"
 #include "controls/LoginDlg.h"
+#include "../Controls/TabDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 #define  ID_MAIN_VIEW   WM_USER + 1000
-
+#define  ID_TEST   WM_USER + 1001
 
 // CMainFrame
 
@@ -40,6 +41,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_SETTINGCHANGE()
 	ON_COMMAND(ID_MUSIC_PLAY, &CMainFrame::OnMusicPlay)
 	ON_COMMAND(ID_LOGIN, &CMainFrame::OnLogin)
+	ON_COMMAND(ID_TAB, &CMainFrame::OnTab)
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -325,7 +327,8 @@ void CMainFrame::OnMusicPlay()
 	// TODO: 在此添加命令处理程序代码
 
 
-
+	LoginDlg it;
+	it.Create(ID_TEST, this);
 
 
 
@@ -364,12 +367,17 @@ void CMainFrame::OnLogin()
 
 void CMainFrame::init()
 {
-	return;
 	CRect rect;
 	GetClientRect(&rect);
 	m_pFrame = new CFrameWnd(); //对话框内视图的父窗口
 	m_pFrame->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, this);
 	ASSERT(m_pFrame);
+
+	CRect  bar_rect;
+	GetDlgItem(AFX_IDW_RIBBON_BAR)->GetClientRect(&bar_rect);
+	m_ClientRect = CRect(rect.left, rect.top + bar_rect.bottom, rect.right, rect.bottom);
+	m_pFrame->MoveWindow(m_ClientRect);
+
 	// 创建自定义view
 	CreatMyView();
 }
@@ -385,20 +393,44 @@ void CMainFrame::CreatMyView()
 
 	m_pTabView = dynamic_cast<TabView*>(pView);
 
-#if 0
-	CRect rcGraphicsView;
-	GetDlgItem(IDC_PIC)->GetWindowRect(&rcGraphicsView);
-	ScreenToClient(&rcGraphicsView);
+	// 获取老句柄
+	HINSTANCE old_hInstance = AfxGetResourceHandle();
+	// 获取动态库实例
+	//HMODULE hm = LoadLibrary(_T("..//Controls.dll"));
+	HINSTANCE dll_hInstance = GetModuleHandle(_T("Controls.dll"));
+	// 设置资源模块句柄为动态库资源句柄
+	AfxSetResourceHandle(dll_hInstance);
 
-	m_pFrame->MoveWindow(rcGraphicsView);
-#endif
-	CRect rect,bar_rect;
-	GetClientRect(&rect);
-	GetDlgItem(AFX_IDW_RIBBON_BAR)->GetClientRect(&bar_rect);
-	CRect mainrect(rect.left, rect.top + bar_rect.bottom, rect.right, rect.bottom);
-	m_pFrame->MoveWindow(mainrect);
+
+	CRect rect;
+	m_pFrame->GetClientRect(&rect);
 	///创建窗口的 classname不能赋值为L""，否则creat方法崩溃  猜想是找不到为空的class，设置为NULL默认没有模板
-	m_pTabView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, mainrect, this, ID_MAIN_VIEW, NULL);
+	m_pTabView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, m_pFrame, ID_MAIN_VIEW, NULL);
 
 
+	// 还原资源句柄
+	AfxSetResourceHandle(old_hInstance);
+}
+
+
+void CMainFrame::OnTab()
+{
+	// TODO: 在此添加命令处理程序代码
+
+	// 获取老句柄
+	HINSTANCE old_hInstance = AfxGetResourceHandle();
+	// 获取动态库实例
+	//HMODULE hm = LoadLibrary(_T("..//Controls.dll"));
+	HINSTANCE dll_hInstance = GetModuleHandle(_T("Controls.dll"));
+	// 设置资源模块句柄为动态库资源句柄
+	AfxSetResourceHandle(dll_hInstance);
+
+	TabDlg it;
+	if (IDOK == it.DoModal())
+	{
+		return;
+	}
+
+	// 还原资源句柄
+	AfxSetResourceHandle(old_hInstance);
 }

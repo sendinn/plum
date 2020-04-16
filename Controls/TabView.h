@@ -22,8 +22,13 @@ public:
 
 public:
 	CTabCtrl m_tab;
-
+	int m_CurSelTab;
 
 	virtual void OnInitialUpdate();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+
+
+	void OnTcnSelchangeTab(NMHDR *pNMHDR, LRESULT *pResult);
+	virtual void DoDataExchange(CDataExchange* pDX);
 };
 
