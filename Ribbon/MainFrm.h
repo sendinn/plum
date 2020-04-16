@@ -17,6 +17,7 @@
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "controls/TabView.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -66,6 +67,26 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
+public:
+	afx_msg void OnMusicPlay();
+	afx_msg void OnLogin();
+
+
+
+
+
+public:
+	/*初始化m_pFrame*/
+	void init();
+	void CreatMyView();
+
+
+	
+protected:
+	//所有view基于该view
+	CFrameWnd*					m_pFrame;
+	TabView*					m_pTabView;
+
 };
 
 

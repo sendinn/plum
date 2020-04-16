@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="主框架类">
+      <UniqueIdentifier>{aa60b5fc-2b36-44b9-9cfb-89ddae0ae64d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -25,9 +28,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MainFrm.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RibbonDoc.h">
@@ -54,15 +54,15 @@
     <ClInclude Include="PropertiesWnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>主框架类</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ribbon.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MainFrm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="RibbonDoc.cpp">
@@ -85,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>主框架类</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

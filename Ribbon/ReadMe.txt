@@ -86,3 +86,55 @@ Ribbon.manifest
 有关上述话题的更多信息，请参见 MSDN 文档中有关重新分发 Visual C++ 应用程序的部分。
 
 /////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+view的创建及展示
+CFileView         m_wndFileView;        在MainFrm.h中声明（CFileView类已经被设计和注册，此时只需要创建和展示即可）
+m_wndFileView.Create(...);				在MainFrm.cpp中创建
+创建之后：
+m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);    设置停靠方式
+DockPane(&m_wndFileView);						停靠指定的窗格到框架窗口。 ---> 展示
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>以上就完成了fileview的创建及展示
+
+
+
+创建的view的父类都要指定成CFramWnd类型的
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>不然资源分配什么的好像会有问题，反正有bug就是了
+
+CMainFrame类没有OnInitUpdate()虚函数
+
+
+

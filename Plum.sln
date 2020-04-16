@@ -11,6 +11,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controls", "Controls\Controls.vcxproj", "{66DDD959-B307-4B43-B956-DCEEEEF6F0DE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ribbon", "Ribbon\Ribbon.vcxproj", "{533C773A-AC35-4E78-8E3D-65226085B370}"
+	ProjectSection(ProjectDependencies) = postProject
+		{66DDD959-B307-4B43-B956-DCEEEEF6F0DE} = {66DDD959-B307-4B43-B956-DCEEEEF6F0DE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

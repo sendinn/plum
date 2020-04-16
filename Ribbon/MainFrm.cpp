@@ -16,10 +16,14 @@
 #include "Ribbon.h"
 
 #include "MainFrm.h"
+#include "controls/LoginDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+#define  ID_MAIN_VIEW   WM_USER + 1000
+
 
 // CMainFrame
 
@@ -34,6 +38,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_WM_SETTINGCHANGE()
+	ON_COMMAND(ID_MUSIC_PLAY, &CMainFrame::OnMusicPlay)
+	ON_COMMAND(ID_LOGIN, &CMainFrame::OnLogin)
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -53,11 +59,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	BOOL bNameValid;
-
 	m_wndRibbonBar.Create(this);
 	m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
 
+
+	BOOL bNameValid;
 	if (!m_wndStatusBar.Create(this))
 	{
 		TRACE0("未能创建状态栏\n");
@@ -80,6 +86,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// 加载菜单项图像(不在任何标准工具栏上): 
 	CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
+
+	// 基于持久值设置视觉管理器和样式
+	OnApplicationLook(theApp.m_nAppLook);
+	return 0;
 
 	// 创建停靠窗口
 	if (!CreateDockingWindows())
@@ -268,10 +278,12 @@ void CMainFrame::OnApplicationLook(UINT id)
 		m_wndRibbonBar.SetWindows7Look(FALSE);
 	}
 
-	m_wndOutput.UpdateFonts();
+	//m_wndOutput.UpdateFonts();
 	RedrawWindow(NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME | RDW_ERASE);
 
 	theApp.WriteInt(_T("ApplicationLook"), theApp.m_nAppLook);
+
+	init();
 }
 
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
@@ -305,4 +317,88 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+
+void CMainFrame::OnMusicPlay()
+{
+	// TODO: 在此添加命令处理程序代码
+
+
+
+
+
+
+}
+
+
+void CMainFrame::OnLogin()
+{
+	// TODO: 在此添加命令处理程序代码
+	/*
+	我们在读取本身程序资源的时候，肯定是提供用GetModuleHandle函数获得的句柄，
+	这个句柄就是当前程序的实例句柄，如果要读取DLL中的资源，很显然的，我们需要提供DLL的句柄，那么这个DLL句柄怎么得到呢？
+	*/
+#if 0
+	LoginDlg it;
+	it.ShowDlg();
+#else
+	// 获取老句柄
+	HINSTANCE old_hInstance = AfxGetResourceHandle();
+	// 获取动态库实例
+	//HMODULE hm = LoadLibrary(_T("..//Controls.dll"));
+	HINSTANCE dll_hInstance = GetModuleHandle(_T("Controls.dll"));
+	// 设置资源模块句柄为动态库资源句柄
+	AfxSetResourceHandle(dll_hInstance);
+
+	LoginDlg it;
+	if (IDOK == it.DoModal())
+	{
+		return;
+	}
+
+	// 还原资源句柄
+	AfxSetResourceHandle(old_hInstance);
+#endif
+}
+
+void CMainFrame::init()
+{
+	return;
+	CRect rect;
+	GetClientRect(&rect);
+	m_pFrame = new CFrameWnd(); //对话框内视图的父窗口
+	m_pFrame->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, this);
+	ASSERT(m_pFrame);
+	// 创建自定义view
+	CreatMyView();
+}
+
+void CMainFrame::CreatMyView()
+{
+	CRuntimeClass* pViewClass = RUNTIME_CLASS(TabView);
+	ENSURE(pViewClass != NULL);
+	ENSURE(pViewClass->IsDerivedFrom(RUNTIME_CLASS(CView)));
+
+	CView* pView = DYNAMIC_DOWNCAST(CView, pViewClass->CreateObject());
+	ASSERT_VALID(pView);
+
+	m_pTabView = dynamic_cast<TabView*>(pView);
+
+#if 0
+	CRect rcGraphicsView;
+	GetDlgItem(IDC_PIC)->GetWindowRect(&rcGraphicsView);
+	ScreenToClient(&rcGraphicsView);
+
+	m_pFrame->MoveWindow(rcGraphicsView);
+#endif
+	CRect rect,bar_rect;
+	GetClientRect(&rect);
+	GetDlgItem(AFX_IDW_RIBBON_BAR)->GetClientRect(&bar_rect);
+	CRect mainrect(rect.left, rect.top + bar_rect.bottom, rect.right, rect.bottom);
+	m_pFrame->MoveWindow(mainrect);
+	///创建窗口的 classname不能赋值为L""，否则creat方法崩溃  猜想是找不到为空的class，设置为NULL默认没有模板
+	m_pTabView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, mainrect, this, ID_MAIN_VIEW, NULL);
+
+
 }

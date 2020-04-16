@@ -40,21 +40,21 @@ int TabView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_tab.InsertItem(1, L"页签2");
 	m_tab.InsertItem(2, L"页签3");
 
-	LoginView* loginView = new LoginView();
-
-	auto it = new LoginDlg();
-	it->Create(IDC_Table1, &m_tab);
-
-	CRect tabRect;
-	m_tab.GetClientRect(&tabRect);    // 获取标签控件客户区Rect   
-									  // 调整tabRect，使其覆盖范围适合放置标签页   
-	tabRect.left += 1;
-	tabRect.right -= 1;
-	tabRect.top += 25;
-	tabRect.bottom -= 1;
-
-	it->MoveWindow(tabRect);
-	it->ShowWindow(SW_SHOW);
+// 	LoginView* loginView = new LoginView();
+// 
+// 	auto it = new LoginDlg();
+// 	it->Create(IDC_Table1, &m_tab);
+// 
+// 	CRect tabRect;
+// 	m_tab.GetClientRect(&tabRect);    // 获取标签控件客户区Rect   
+// 									  // 调整tabRect，使其覆盖范围适合放置标签页   
+// 	tabRect.left += 1;
+// 	tabRect.right -= 1;
+// 	tabRect.top += 25;
+// 	tabRect.bottom -= 1;
+// 
+// 	it->MoveWindow(tabRect);
+// 	it->ShowWindow(SW_SHOW);
 }
 
 
@@ -63,21 +63,21 @@ void TabView::OnInitialUpdate()
 	CView::OnInitialUpdate();
 
 	// TODO: 在此添加专用代码和/或调用基类
-	LoginView* loginView = new LoginView();
-	
-	LoginDlg it;
-	it.Create(IDC_Table1, &m_tab);
-
-	CRect tabRect;
-	m_tab.GetClientRect(&tabRect);    // 获取标签控件客户区Rect   
-									  // 调整tabRect，使其覆盖范围适合放置标签页   
-	tabRect.left += 1;
-	tabRect.right -= 1;
-	tabRect.top += 25;
-	tabRect.bottom -= 1;
-
-	it.MoveWindow(tabRect);
-	it.ShowWindow(SW_SHOW);
+// 	LoginView* loginView = new LoginView();
+// 	
+// 	LoginDlg it;
+// 	it.Create(IDC_Table1, &m_tab);
+// 
+// 	CRect tabRect;
+// 	m_tab.GetClientRect(&tabRect);    // 获取标签控件客户区Rect   
+// 									  // 调整tabRect，使其覆盖范围适合放置标签页   
+// 	tabRect.left += 1;
+// 	tabRect.right -= 1;
+// 	tabRect.top += 25;
+// 	tabRect.bottom -= 1;
+// 
+// 	it.MoveWindow(tabRect);
+// 	it.ShowWindow(SW_SHOW);
 	// 根据调整好的tabRect放置m_jzmDlg子对话框，并设置为显示   
 	//it.SetWindowPos(this, tabRect.left, tabRect.top, tabRect.Width(), tabRect.Height(), SWP_SHOWWINDOW);
 

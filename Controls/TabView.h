@@ -1,5 +1,6 @@
 #pragma once
-class TabView :public CView
+#include "ControlsExport.h"
+class CONTROLS_EXPORT TabView :public CView
 {
 public:
 	TabView();
