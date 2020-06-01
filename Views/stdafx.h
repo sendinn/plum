@@ -35,7 +35,7 @@
 #ifndef _AFX_NO_AFXCMN_SUPPORT
 #include <afxcmn.h>                     // MFC 对 Windows 公共控件的支持
 #endif // _AFX_NO_AFXCMN_SUPPORT
-#include <afxcontrolbars.h>
+#include <afxribbonbar.h>
 #include <afxdialogex.h>
 
 

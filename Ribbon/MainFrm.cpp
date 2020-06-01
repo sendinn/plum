@@ -1,30 +1,13 @@
-// 这段 MFC 示例源代码演示如何使用 MFC Microsoft Office Fluent 用户界面 
-// (“Fluent UI”)。该示例仅供参考，
-// 用以补充《Microsoft 基础类参考》和 
-// MFC C++ 库软件随附的相关电子文档。  
-// 复制、使用或分发 Fluent UI 的许可条款是单独提供的。  
-// 若要了解有关 Fluent UI 许可计划的详细信息，请访问 
-// http://go.microsoft.com/fwlink/?LinkId=238214。
-//
-// 版权所有(C) Microsoft Corporation
-// 保留所有权利。
-
-// MainFrm.cpp : CMainFrame 类的实现
-//
-
 #include "stdafx.h"
 #include "Ribbon.h"
-
 #include "MainFrm.h"
-#include "controls/LoginDlg.h"
-#include "../Controls/TabDlg.h"
-
+#include "../Views/MainView.h"
+#include "../Views/ViewManager.h"
+#include "../Views/TestView.h"
+#include "../Views/RibbonManager.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
-#define  ID_MAIN_VIEW   WM_USER + 1000
-#define  ID_TEST   WM_USER + 1001
 
 // CMainFrame
 
@@ -39,9 +22,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnFilePrintPreview)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, &CMainFrame::OnUpdateFilePrintPreview)
 	ON_WM_SETTINGCHANGE()
-	ON_COMMAND(ID_MUSIC_PLAY, &CMainFrame::OnMusicPlay)
-	ON_COMMAND(ID_LOGIN, &CMainFrame::OnLogin)
-	ON_COMMAND(ID_TAB, &CMainFrame::OnTab)
+	ON_REGISTERED_MESSAGE(AFX_WM_ON_CHANGE_RIBBON_CATEGORY, &CMainFrame::OnAfxWmOnChangeRibbonCategory)
 END_MESSAGE_MAP()
 
 // CMainFrame 构造/析构
@@ -285,7 +266,6 @@ void CMainFrame::OnApplicationLook(UINT id)
 
 	theApp.WriteInt(_T("ApplicationLook"), theApp.m_nAppLook);
 
-	init();
 }
 
 void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
@@ -322,115 +302,128 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 }
 
 
-void CMainFrame::OnMusicPlay()
+const vector<String> CategoryNames = { L"播放器" };
+BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
-	// TODO: 在此添加命令处理程序代码
-
-
-	LoginDlg it;
-	it.Create(ID_TEST, this);
-
-
-
-}
-
-
-void CMainFrame::OnLogin()
-{
-	// TODO: 在此添加命令处理程序代码
-	/*
-	我们在读取本身程序资源的时候，肯定是提供用GetModuleHandle函数获得的句柄，
-	这个句柄就是当前程序的实例句柄，如果要读取DLL中的资源，很显然的，我们需要提供DLL的句柄，那么这个DLL句柄怎么得到呢？
-	*/
-#if 0
-	LoginDlg it;
-	it.ShowDlg();
-#else
-	// 获取老句柄
-	HINSTANCE old_hInstance = AfxGetResourceHandle();
-	// 获取动态库实例
-	//HMODULE hm = LoadLibrary(_T("..//Controls.dll"));
-	HINSTANCE dll_hInstance = GetModuleHandle(_T("Controls.dll"));
-	// 设置资源模块句柄为动态库资源句柄
-	AfxSetResourceHandle(dll_hInstance);
-
-	LoginDlg it;
-	if (IDOK == it.DoModal())
+	// TODO: 在此添加专用代码和/或调用基类
+	UINT nID = AFX_IDW_PANE_FIRST + 100;
+	vector<CRuntimeClass*> pClass;
+	pClass.push_back(RUNTIME_CLASS(TestView));
+	
+	CCreateContext context = *pContext;
+	for (int i = 0; i < CategoryNames.size(); i++)
 	{
-		return;
+		context.m_pNewViewClass = pClass[i];
+		context.m_pLastView = NULL;
+		try
+		{
+			String CategoryName = CategoryNames[i];
+			CView*  pview = (CView*)(this->CreateView(&context, nID));
+			if (pview == NULL)
+			{
+				return FALSE;
+			}
+			pview->ShowWindow(SW_HIDE);
+
+			CViewManager::GetInstance()->AddView(CategoryName, pview);
+		}
+		catch (CMemoryException* e)
+		{
+			cout << e << endl;
+
+		}
+		catch (CFileException* e)
+		{
+			cout << e << endl;
+
+		}
+		catch (CException* e)
+		{
+			cout << e << endl;
+
+		}
+
+		nID++;
 	}
 
-	// 还原资源句柄
-	AfxSetResourceHandle(old_hInstance);
-#endif
-}
 
-void CMainFrame::init()
-{
-	CRect rect;
-	GetClientRect(&rect);
-	m_pFrame = new CFrameWnd(); //对话框内视图的父窗口
-	m_pFrame->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, this);
-	ASSERT(m_pFrame);
-
-	CRect  bar_rect;
-	GetDlgItem(AFX_IDW_RIBBON_BAR)->GetClientRect(&bar_rect);
-	m_ClientRect = CRect(rect.left, rect.top + bar_rect.bottom, rect.right, rect.bottom);
-	m_pFrame->MoveWindow(m_ClientRect);
-
-	// 创建自定义view
-	CreatMyView();
-}
-
-void CMainFrame::CreatMyView()
-{
-	CRuntimeClass* pViewClass = RUNTIME_CLASS(TabView);
-	ENSURE(pViewClass != NULL);
-	ENSURE(pViewClass->IsDerivedFrom(RUNTIME_CLASS(CView)));
-
-	CView* pView = DYNAMIC_DOWNCAST(CView, pViewClass->CreateObject());
-	ASSERT_VALID(pView);
-
-	m_pTabView = dynamic_cast<TabView*>(pView);
-
-	// 获取老句柄
-	HINSTANCE old_hInstance = AfxGetResourceHandle();
-	// 获取动态库实例
-	//HMODULE hm = LoadLibrary(_T("..//Controls.dll"));
-	HINSTANCE dll_hInstance = GetModuleHandle(_T("Controls.dll"));
-	// 设置资源模块句柄为动态库资源句柄
-	AfxSetResourceHandle(dll_hInstance);
+	CRibbonManager::GetInstance()->SetCurrentRibbonBar(&m_wndRibbonBar);
 
 
-	CRect rect;
-	m_pFrame->GetClientRect(&rect);
-	///创建窗口的 classname不能赋值为L""，否则creat方法崩溃  猜想是找不到为空的class，设置为NULL默认没有模板
-	m_pTabView->Create(NULL, NULL, WS_CHILD | WS_VISIBLE, rect, m_pFrame, ID_MAIN_VIEW, NULL);
-
-
-	// 还原资源句柄
-	AfxSetResourceHandle(old_hInstance);
+	return CFrameWndEx::OnCreateClient(lpcs, pContext);
 }
 
 
-void CMainFrame::OnTab()
+
+/*
+Ribbon的几个可以被主窗口捕获的自定义消息
+
+//这个消息用于通知主窗口重新调整控件的位置
+UINT AFX_WM_POSTRECALCLAYOUT = ::RegisterWindowMessage(_T("AFX_WM_POSTRECALCLAYOUT"));
+
+//这个消息用于通知主窗口Ribbon的Category面板发生了更改
+UINT AFX_WM_ON_CHANGE_RIBBON_CATEGORY = ::RegisterWindowMessage(_T("AFX_WM_ON_CHANGE_RIBBON_CATEGORY"));
+
+//这个消息用于通知主窗口调用Ribbon的自定义对话框
+UINT AFX_WM_ON_RIBBON_CUSTOMIZE = ::RegisterWindowMessage(_T("AFX_WM_ON_RIBBON_CUSTOMIZE"));
+
+//这个消息（应该是）用于通知主窗口对Ribbon的某个项目更改为高亮状态
+UINT AFX_WM_ON_HIGHLIGHT_RIBBON_LIST_ITEM = ::RegisterWindowMessage(_T("AFX_WM_ON_HIGHLIGHT_RIBBON_LIST_ITEM"));
+
+//这个消息（应该是）用于通知主窗口显示Ribbon的某项目的弹出菜单
+UINT AFX_WM_ON_BEFORE_SHOW_RIBBON_ITEM_MENU = ::RegisterWindowMessage(_T("AFX_WM_ON_BEFORE_SHOW_RIBBON_ITEM_MENU"));
+
+//参考 http://blog.sina.com.cn/s/blog_8f479b390102xaxa.html
+*/
+afx_msg LRESULT CMainFrame::OnAfxWmOnChangeRibbonCategory(WPARAM wParam, LPARAM lParam)
 {
-	// TODO: 在此添加命令处理程序代码
+	CMFCRibbonCategory *pCategory = m_wndRibbonBar.GetActiveCategory();
+	//nCategory变量存储当前激活Category的Index，范围从1开始，并非是0，Category的Index序号从左至右递增。
+	int nCategory = m_wndRibbonBar.GetCategoryIndex(pCategory);
+	CString name = pCategory->GetName();
 
-	// 获取老句柄
-	HINSTANCE old_hInstance = AfxGetResourceHandle();
-	// 获取动态库实例
-	//HMODULE hm = LoadLibrary(_T("..//Controls.dll"));
-	HINSTANCE dll_hInstance = GetModuleHandle(_T("Controls.dll"));
-	// 设置资源模块句柄为动态库资源句柄
-	AfxSetResourceHandle(dll_hInstance);
+	//外部不好获取，只有切换时才有，暂时放在这里 zhaoyuantao 20200414
+	CView* pOldView = this->GetActiveView();
 
-	TabDlg it;
-	if (IDOK == it.DoModal())
+	//当前view会嵌套view，内部view会被激活，切换只切换，最上层的view进行显示
+	while (!pOldView->GetParent()->IsKindOf(RUNTIME_CLASS(CMainFrame)))
 	{
-		return;
+		pOldView = (CView*)pOldView->GetParent();
 	}
 
-	// 还原资源句柄
-	AfxSetResourceHandle(old_hInstance);
+	if (name != L"主页")
+	{
+		CViewManager::GetInstance()->AddView(L"主页", pOldView);
+	}
+	if (pOldView == NULL)
+	{
+		pOldView = DYNAMIC_DOWNCAST(CView, this->GetDescendantWindow(AFX_IDW_PANE_FIRST, TRUE));
+	}
+
+	CView* pView = CViewManager::GetInstance()->GetView(name.GetString());
+	if (pView == NULL)
+	{
+		return 0;
+	}
+	if (pView == pOldView)
+	{
+		return 0;
+	}
+
+	// exchange view window ID's so RecalcLayout() works
+	UINT temp = ::GetWindowLong(pOldView->m_hWnd, GWL_ID);
+	::SetWindowLong(pOldView->m_hWnd, GWL_ID, ::GetWindowLong(pView->m_hWnd, GWL_ID));
+	::SetWindowLong(pView->m_hWnd, GWL_ID, temp);
+
+	// Display and update the new current view - hide the old one    
+	pOldView->ShowWindow(SW_HIDE);
+	pView->ShowWindow(SW_SHOW);
+
+	this->SetActiveView(pView);
+	CViewManager::GetInstance()->SetActiveView(pView);
+	this->RecalcLayout();
+	//this->SendMessage(WM_SETMESSAGESTRING, (WPARAM)AFX_IDS_IDLEMESSAGE, 0);
+	this->UpdateWindow();
+
+	return 0;
 }

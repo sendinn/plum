@@ -118,7 +118,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>Controls.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Controls.lib;Views.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>

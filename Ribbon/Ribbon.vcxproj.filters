@@ -21,9 +21,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ribbon.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -57,11 +54,11 @@
     <ClInclude Include="MainFrm.h">
       <Filter>主框架类</Filter>
     </ClInclude>
+    <ClInclude Include="Ribbon.h">
+      <Filter>主框架类</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Ribbon.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -87,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MainFrm.cpp">
+      <Filter>主框架类</Filter>
+    </ClCompile>
+    <ClCompile Include="Ribbon.cpp">
       <Filter>主框架类</Filter>
     </ClCompile>
   </ItemGroup>

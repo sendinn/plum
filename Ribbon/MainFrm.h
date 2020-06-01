@@ -1,24 +1,9 @@
-// 这段 MFC 示例源代码演示如何使用 MFC Microsoft Office Fluent 用户界面 
-// (“Fluent UI”)。该示例仅供参考，
-// 用以补充《Microsoft 基础类参考》和 
-// MFC C++ 库软件随附的相关电子文档。  
-// 复制、使用或分发 Fluent UI 的许可条款是单独提供的。  
-// 若要了解有关 Fluent UI 许可计划的详细信息，请访问 
-// http://go.microsoft.com/fwlink/?LinkId=238214。
-//
-// 版权所有(C) Microsoft Corporation
-// 保留所有权利。
-
-// MainFrm.h : CMainFrame 类的接口
-//
-
 #pragma once
 #include "FileView.h"
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
-#include "controls/TabView.h"
-#include "controls/LoginView.h"
+
 class CMainFrame : public CFrameWndEx
 {
 	
@@ -45,14 +30,14 @@ public:
 #endif
 
 protected:  // 控件条嵌入成员
-	CMFCRibbonBar     m_wndRibbonBar;
-	CMFCRibbonApplicationButton m_MainButton;
-	CMFCToolBarImages m_PanelImages;
-	CMFCRibbonStatusBar  m_wndStatusBar;
-	CFileView         m_wndFileView;
-	CClassView        m_wndClassView;
-	COutputWnd        m_wndOutput;
-	CPropertiesWnd    m_wndProperties;
+	CMFCRibbonBar					m_wndRibbonBar;
+	CMFCRibbonApplicationButton		m_MainButton;
+	CMFCToolBarImages				m_PanelImages;
+	CMFCRibbonStatusBar				m_wndStatusBar;
+	CFileView						m_wndFileView;
+	CClassView						m_wndClassView;
+	COutputWnd						m_wndOutput;
+	CPropertiesWnd					m_wndProperties;
 
 // 生成的消息映射函数
 protected:
@@ -67,30 +52,9 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
-public:
-	afx_msg void OnMusicPlay();
-	afx_msg void OnLogin();
 
-
-
-
-
-public:
-	/*初始化m_pFrame*/
-	void init();
-	void CreatMyView();
-
-
-	
-protected:
-	//所有view基于该view
-	CFrameWnd*					m_pFrame;
-	TabView*					m_pTabView;
-	LoginView*					m_pLoginView;
-
-	CRect                       m_ClientRect;
-public:
-	afx_msg void OnTab();
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+	afx_msg LRESULT OnAfxWmOnChangeRibbonCategory(WPARAM wParam, LPARAM lParam);
 };
 
 

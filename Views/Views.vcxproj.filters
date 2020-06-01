@@ -13,32 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="自绘控件">
-      <UniqueIdentifier>{c826c357-58ed-42e8-85f7-b007b6e43994}</UniqueIdentifier>
+    <Filter Include="视图">
+      <UniqueIdentifier>{d9956130-631f-4eba-a1fe-5025f9a3f31b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="自绘控件\按钮">
-      <UniqueIdentifier>{26318345-9220-485c-ae5d-467a72ef610d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="自绘控件\进度条对话框">
-      <UniqueIdentifier>{6b3d5f0a-dd79-4d50-9036-2e50300eafec}</UniqueIdentifier>
+    <Filter Include="管理器">
+      <UniqueIdentifier>{03290c90-8f7d-4ca4-b7ff-989d6928bcb6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Controls.cpp">
+    <ClCompile Include="Views.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CustomCtrl\ProgressWindow.cpp">
-      <Filter>自绘控件\进度条对话框</Filter>
+    <ClCompile Include="MainView.cpp">
+      <Filter>视图</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewManager.cpp">
+      <Filter>管理器</Filter>
+    </ClCompile>
+    <ClCompile Include="TestView.cpp">
+      <Filter>视图</Filter>
+    </ClCompile>
+    <ClCompile Include="RibbonManager.cpp">
+      <Filter>管理器</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controls.h">
+    <ClInclude Include="Views.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -50,23 +56,32 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ControlsExport.h">
+    <ClInclude Include="MainView.h">
+      <Filter>视图</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewManager.h">
+      <Filter>管理器</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewsExport.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CustomCtrl\ProgressWindow.h">
-      <Filter>自绘控件\进度条对话框</Filter>
+    <ClInclude Include="TestView.h">
+      <Filter>视图</Filter>
+    </ClInclude>
+    <ClInclude Include="RibbonManager.h">
+      <Filter>管理器</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Controls.def">
+    <None Include="Views.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\Controls.rc2">
+    <None Include="res\Views.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Controls.rc">
+    <ResourceCompile Include="Views.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
