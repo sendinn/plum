@@ -90,6 +90,7 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDR_RIBBON                      307
+#define IDC_BUTTON1000                  1000
 #define ID_WRITE_PASTEASHYPERLINK       32770
 #define ID_MUSIC_PLAY                   32771
 #define ID_LOGIN                        32772
@@ -102,7 +103,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        310
 #define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
 #endif

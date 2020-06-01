@@ -53,6 +53,7 @@ BEGIN
     "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
     "LANGUAGE 4, 2\r\n"
     "#include ""res\\Ribbon.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+	"#include ""res\\BCGSoft_ribbon\\Ribbon.ribbon.rc2""  // BCGSoft Designer resources\r\n"
     "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
     "#include ""l.CHS\\afxprint.rc""    // 打印/打印预览资源\r\n"
     "#if !defined(_AFXDLL)\r\n"
@@ -606,6 +607,7 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 LANGUAGE 4, 2
 #include "res\Ribbon.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "res\BCGSoft_ribbon\Ribbon.ribbon.rc2"  // BCGSoft Designer resources
 #include "l.CHS\afxres.rc"      // 标准组件
 #include "l.CHS\afxprint.rc"    // 打印/打印预览资源
 #if !defined(_AFXDLL)
@@ -615,4 +617,3 @@ LANGUAGE 4, 2
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
