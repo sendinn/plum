@@ -1,0 +1,13 @@
+打开BCGCBPro140.sln
+编译UnicodeDebug x64       --->>   生成对象在bin64下，中间数据在bin64\inner下
+
+把生成的dll和lib复制到项目exe同级目录下（或者把bin64的路径添加到项目的属性中）  -->>目的是让项目可以找到BCGCBPRO2510ud140dll和BCGCBPRO2510ud140.lib
+
+在使用bcg的地方添加头文件：#include <Bcg/BCGCBPro/BCGCBProInc.h>    （添加到模块的stdafx.h中最为省事儿）
+
+
+可以把BCGCBPro项目包到项目中，只要生成的pdb的位置不变就可以调试代码（pdb的位置是通过lib来定位，就算lib是加载的bin下面复制来的lib也可以找到pdb的位置）
+
+
+
+(bcg的例子工程提示找不到exe--> 配置输出文件     $(ProjectName)   >>>    $(ProjectName)D     )
